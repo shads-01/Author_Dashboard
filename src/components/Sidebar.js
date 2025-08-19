@@ -19,9 +19,8 @@ import ListItemText from '@mui/material/ListItemText';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArticleIcon from '@mui/icons-material/Article';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Profile from '../pages/Profile';
-import MyArticles from '../pages/MyArticles';
 import { Avatar } from '@mui/material';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -111,7 +110,8 @@ const darkTheme = createTheme({
 export default function Sidebar() {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
-    const [menudata, setMenudata] = useState("My Articles");
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -142,7 +142,7 @@ export default function Sidebar() {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" noWrap component="div">
-                            {menudata}
+                            {location.pathname === '/profile' ? 'Profile' : 'My Articles'}
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -160,7 +160,7 @@ export default function Sidebar() {
                             px: 2,
                             py: 1.5,
                         }}
-                        onClick={() => setMenudata("Profile")}
+                        onClick={() => navigate("/profile")}
                     >
                         <Avatar
                             alt="Shahadat Hasan"
@@ -177,8 +177,8 @@ export default function Sidebar() {
                     <List>
                         {['Profile', 'My Articles'].map((text, index) => (
                             <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                                <ListItemButton onClick={() => setMenudata(text)}
-                                    selected={menudata === text}
+                                <ListItemButton onClick={() => navigate(index % 2 === 0 ? '/profile' : '/articles')}
+                                    selected={location.pathname === (index % 2 === 0 ? '/profile' : '/articles')}
                                     sx={[
                                         {
                                             minHeight: 48,
@@ -229,8 +229,7 @@ export default function Sidebar() {
                 </Drawer>
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     <DrawerHeader />
-                    {menudata == "My Articles" && <MyArticles />}
-                    {menudata == "Profile" && <Profile />}
+                    <Outlet />
                 </Box>
             </Box>
         </ThemeProvider>
