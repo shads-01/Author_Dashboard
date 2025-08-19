@@ -21,6 +21,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Profile from '../pages/Profile';
 import MyArticles from '../pages/MyArticles';
+import { Avatar } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -50,7 +51,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 
@@ -162,16 +162,10 @@ export default function Sidebar() {
                         }}
                         onClick={() => setMenudata("Profile")}
                     >
-                        <img
+                        <Avatar
+                            alt="Shahadat Hasan"
                             src="https://tenor.com/view/gasp-shock-scared-psyduck-pokemon-gif-25805348.gif"
-                            alt="Profile"
-                            style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: "50%",
-                                marginRight: open ? 12 : 0,
-                                transition: "margin 0.3s",
-                            }}
+                            sx={{ width: 40, height: 40, mx: "auto", mb: 2 }}
                         />
                         {open && (
                             <Typography variant="subtitle1" noWrap>
